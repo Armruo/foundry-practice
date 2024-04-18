@@ -6,3 +6,4 @@ forge-std/=node_modules/forge-std/
 openzeppelin-contracts/=lib/openzeppelin-contracts/
 solmate/=lib/solmate/src/
 solmate-utils/=lib/solmate/src/utils/
+@prb/test/=node_modules/@prb/test/

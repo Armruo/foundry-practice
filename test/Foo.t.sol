@@ -31,7 +31,6 @@ contract FooTest is PRBTest, StdCheats {
 
     /// @dev Fuzz test that provides random values for an unsigned integer, but which rejects zero as an input.
     /// If you need more sophisticated input validation, you should use the `bound` utility instead.
-    /// See https://twitter.com/PaulRBerg/status/1622558791685242880
     function testFuzz_Example(uint256 x) external {
         vm.assume(x != 0); // or x = bound(x, 1, 100)
         assertEq(foo.id(x), x, "value mismatch");
@@ -47,7 +46,7 @@ contract FooTest is PRBTest, StdCheats {
         }
 
         // Otherwise, run the test against the mainnet fork.
-        vm.createSelectFork({ urlOrAlias: "mainnet", blockNumber: 16_428_000 });
+        vm.createSelectFork({ urlOrAlias: "sepolia", blockNumber: 16_428_000 });
         address usdc = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48;
         address holder = 0x7713974908Be4BEd47172370115e8b1219F4A5f0;
         uint256 actualBalance = IERC20(usdc).balanceOf(holder);
@@ -58,9 +57,7 @@ contract FooTest is PRBTest, StdCheats {
     function test_Example_copy() external {
         console2.log("Hi,Aegit, See the Print");
         uint256 x = 10;
-        vm.assume(
-            (x != 0)
-        );
+        vm.assume((x != 0));
         string memory alchemyApiKeyCopy = vm.envOr("AEGIT_API_KEY", string("match_vm_str"));
         if (bytes(alchemyApiKeyCopy).length != 0) {
             return;
