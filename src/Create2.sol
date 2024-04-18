@@ -50,16 +50,20 @@ contract Create2 {
         // 参考CREATE2操作码用于计算地址的公式：
         // keccak256(0xff ++ address ++ salt ++ keccak256(bytecode))[12:]
         assembly {
-            let ptr := mload(0x40) // 将空闲内存指针加载到内存中。这是指向内存数组中下一个空闲内存槽的指针。了解更多信息：https://docs.soliditylang.org/en/latest/assembly.html#memory-management
+            // 将空闲内存指针加载到内存中。这是指向内存数组中下一个空闲内存槽的指针。
+            // 了解更多信息：https://docs.soliditylang.org/en/latest/assembly.html#memory-management
+            let ptr := mload(0x40)
 
             mstore(add(ptr, 0x40), creationCodeHash) // 将 bytecodeHash 存储在由 ptr + 0x40 指向的内存位置，即 ptr+ 64 字节。
             mstore(add(ptr, 0x20), salt) // 将 salt 存储在由 ptr + 0x20 指向的内存位置
             mstore(ptr, contractAddress) // 将 contractAddress 存储在由 ptr 指向的内存位置。
 
             let start := add(ptr, 0x0b) // 创建一个名为 start 的新变量，指向内存位置 ptr + 0x0b ，即 ptr + 11 字节。
-            mstore8(start, 0xff) // 使用mstore8操作码在内存位置存储单个字节。这里将值0xff存储在由 start 指向的内存位置，它占据内存槽的第 12 个字节。
+            // 使用mstore8操作码在内存位置存储单个字节。
+            mstore8(start, 0xff) // 这里将值0xff存储在由 start 指向的内存位置，它占据内存槽的第 12 个字节。
 
-            // 所有值都打包到对应的正确内存位置后。可以在从 start 开始的内存槽上调用 keccak256，第二个参数传内存槽的长度
+            // 所有值都打包到对应的正确内存位置后。
+            // 可以在从 start 开始的内存槽上调用 keccak256，第二个参数传内存槽的长度
             // 这将返回一个32字节的哈希，截断以获得最终地址
             addr := keccak256(start, 85)
         }
