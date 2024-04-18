@@ -24,7 +24,9 @@ contract Create2 {
             addr :=
                 create2(
                     callvalue(), // 作为交易的一部分发送到工厂合约的ETH数量。可将其视为 msg.value 的低级版本。
-                    add(creationCode, 0x20), // 字节码所在内存范围。接受一个对 bytes 变量 bytecode 在内存中的位置的引用，并跳过 32字节（十六进制中的 0x20）以指向实际的字节码。
+                    // 字节码所在内存范围。接受一个对 bytes 变量 bytecode 在内存中的位置的引用，
+                    // 并跳过 32字节（十六进制中的 0x20）以指向实际的字节码。
+                    add(creationCode, 0x20),
                     mload(creationCode), // 字节码所在内存范围。
                     salt
                 )
@@ -45,7 +47,8 @@ contract Create2 {
         address contractAddress = address(this);
 
         // 使用 内联汇编 来通过 执行与CREATE2操作码相同的计算 来计算地址
-        // 参考CREATE2操作码用于计算地址的公式：keccak256(0xff ++ address ++ salt ++ keccak256(bytecode))[12:]
+        // 参考CREATE2操作码用于计算地址的公式：
+        // keccak256(0xff ++ address ++ salt ++ keccak256(bytecode))[12:]
         assembly {
             let ptr := mload(0x40) // 将空闲内存指针加载到内存中。这是指向内存数组中下一个空闲内存槽的指针。了解更多信息：https://docs.soliditylang.org/en/latest/assembly.html#memory-management
 
