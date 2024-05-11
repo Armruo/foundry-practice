@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract SLToken is ERC20, Ownable {
+contract Token is ERC20, Ownable {
     mapping(address => bool) public feeWhiteList;
     uint256 public feePercentage = 5; // 0.5%
 

@@ -16,17 +16,17 @@ import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.
 import "@openzeppelin/contracts-upgradeable/utils/cryptography/ECDSAUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/cryptography/draft-EIP712Upgradeable.sol";
 
-contract SL {
+contract TokenCreate {
     string public name;
     string public symbol;
     uint8 public decimals;
 
     mapping(address => uint256) public balanceOf;
     mapping(address => mapping(address => uint256)) public allowance;
-    
+
     // Event to log token transfers
     event Transfer(address indexed from, address indexed to, uint256 value);
-    
+
     // Event to log approval of token spending
     event Approval(address indexed owner, address indexed spender, uint256 value);
 
